@@ -12,7 +12,7 @@ default_config_dir_path = str(pathlib.Path(driverconfig.__file__).parent.resolve
 default_config_path = os.path.join(default_config_dir_path, 'default_config.yml')
 
 
-def create_app():
+async def create_app():
     app_builder = ignition.build_resource_driver('{( app.name )}')
     app_builder.include_file_config_properties(default_config_path, required=True)
     app_builder.include_file_config_properties('./{( app.module_name )}_config.yml', required=False)
@@ -24,7 +24,6 @@ def create_app():
     {%- endif %}
     return app_builder.configure()
 
-
-def init_app():
-    app = create_app()
+async def init_app():
+    app = await create_app()
     return app.run()
